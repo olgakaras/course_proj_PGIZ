@@ -13,13 +13,18 @@ namespace Template
         public static readonly float TWO_PI = (float)Math.PI * 2.0f;
         public static readonly float HALF_PI = (float)Math.PI / 2.0f;
 
+        public Vector4 InitialPosition { get; private set; }
+        public float? InitialYaw { get; private set; }
         protected Vector4 position;
         public virtual Vector4 Position { get => position; set => position = value; }
-        public virtual float Yaw { get; set; }
+        private float yaw;
+        public virtual float Yaw { get => yaw; set { if (!InitialYaw.HasValue) InitialYaw = value; yaw = value; } }
         public float Pitch { get; set; }
         public float Roll { get; set; }
         public PositionalObject(Vector4 initialPosition)
         {
+            InitialPosition = initialPosition;
+            InitialYaw = null;
             position = initialPosition;
         }
 
@@ -33,6 +38,12 @@ namespace Template
         public Matrix GetWorldMatrix()
         {
             return Matrix.Multiply(Matrix.RotationYawPitchRoll(Yaw, Pitch, Roll), Matrix.Translation((Vector3)position));
+        }
+
+        public void SetInitialStates()
+        {
+            Position = InitialPosition;
+            Yaw = InitialYaw.Value;
         }
 
         public virtual void YawBy(float deltaYaw)

@@ -24,26 +24,31 @@ namespace Template.Game.GameObjects.Services
             delta = 0.01f;
             this.controller = controller;
             Walls = new List<DrawableObject>();
-            DrawableObject floor = new DrawableObject(Vector4.Zero);
+            DrawableObject floor = new RotatiableObject(Vector4.Zero, 0);
             floor.AddMeshObjects(loader.LoadMeshesFromObject("resources\\objects\\floor\\floor.obj", null));
             floor.SetCollider();
             Walls.Add(floor);
 
-            DrawableObject tower = new DrawableObject(Vector4.Zero);
+            DrawableObject tower = new RotatiableObject(Vector4.Zero, 0);
             tower.AddMeshObjects(loader.LoadMeshesFromObject("resources\\objects\\tower\\tower.obj", null));
             Walls.Add(tower);
 
-            CreatePlatform(new Vector4(0, 2, 0, 0), PositionalObject.PI, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
-            CreatePlatform(new Vector4(0, 2, 0, 0), PositionalObject.HALF_PI / 2, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
-            //CreatePlatform(new Vector4(0, 2, 0, 0), PositionalObject.PI * 8 / 9, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
-            CreateLiftPlatform(new Vector4(0, 2, 0, 0), PositionalObject.PI * 8 / 9, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
+            CreatePlatform(new Vector4(0, 0, 0, 0), PositionalObject.PI, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
+            CreatePlatform(new Vector4(0, 0, 0, 0), PositionalObject.PI * 0, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
+            CreatePlatform(new Vector4(0, 0, 0, 0), PositionalObject.HALF_PI / 2, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
+            CreateLiftPlatform(new Vector4(0, 0, 0, 0), PositionalObject.PI * 7 / 9, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
+            CreateLiftPlatform(new Vector4(0, 20, 0, 0), PositionalObject.PI * 6 / 9, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
+            CreateLiftPlatform(new Vector4(0, 0, 0, 0), PositionalObject.PI * 3 / 2, loader.LoadMeshesFromObject("resources\\objects\\brick\\brick.obj", null));
+
+            SetDoors(CreateDoor(new Vector4(0, 10, 0, 0), PositionalObject.PI * 0, loader.LoadMeshesFromObject("resources\\objects\\door\\door.obj", null)),
+                CreateDoor(new Vector4(0, 10, 0, 0), PositionalObject.PI, loader.LoadMeshesFromObject("resources\\objects\\door\\door.obj", null)));
         }
 
         private void CreatePlatform(Vector4 initialPos, float angle, List<MeshObject> meshes)
         {
             initialPos.X = (float)(Math.Cos(-angle) * radius);
             initialPos.Z = (float)(Math.Sin(-angle) * radius);
-            DrawableObject platform = new Platform(initialPos);
+            DrawableObject platform = new RotatiableObject(initialPos, 65);
             platform.AddMeshObjects(meshes);
             platform.Yaw = angle;
             platform.SetCollider("brick");
@@ -54,11 +59,30 @@ namespace Template.Game.GameObjects.Services
         {
             initialPos.X = (float)(Math.Cos(-angle) * radius);
             initialPos.Z = (float)(Math.Sin(-angle) * radius);
-            DrawableObject platform = new LiftPlatform(initialPos, new Vector2(initialPos.Y, initialPos.Y + 10));
+            DrawableObject platform = new LiftPlatform(initialPos, 65, new Vector2(initialPos.Y, initialPos.Y + 10));
             platform.AddMeshObjects(meshes);
             platform.Yaw = angle;
             platform.SetCollider("brick");
             Walls.Add(platform);
+        }
+
+        private DrawableObject CreateDoor(Vector4 initialPos, float angle, List<MeshObject> meshes)
+        {
+            initialPos.X = (float)(Math.Cos(-angle) * 60);
+            initialPos.Z = (float)(Math.Sin(-angle) * 60);
+            DrawableObject door = new Door(initialPos, 60);
+            door.AddMeshObjects(meshes);
+            door.Yaw = angle;
+            door.SetCollider("collider");
+            return door;
+        }
+
+        private void SetDoors(DrawableObject first, DrawableObject second)
+        {
+            ((Door)first).OtherDoor = (Door)second;
+            ((Door)second).OtherDoor = (Door)first;
+            Walls.Add(first);
+            Walls.Add(second);
         }
 
         public void Render(Matrix view, Matrix projection)
@@ -87,6 +111,11 @@ namespace Template.Game.GameObjects.Services
                 if (platform.Position.Y <= platform.MinMax.X)
                     platform.Up = 0;
             }
+        }
+
+        public void SetInitialScene()
+        {
+            Walls.ForEach(w => w.SetInitialStates());
         }
     }
 }

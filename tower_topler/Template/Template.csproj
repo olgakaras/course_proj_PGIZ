@@ -156,13 +156,14 @@
   <ItemGroup>
     <Compile Include="Game\Animations\AnimationEventArgs.cs" />
     <Compile Include="Game\Animations\Animation.cs" />
-    <Compile Include="Game\Animations\RotationAnimation.cs" />
-    <Compile Include="Game\Animations\SlideAnimation.cs" />
+    <Compile Include="Game\Animations\RotateSceneAnimation.cs" />
+    <Compile Include="Game\Animations\VerticalSlideAnimation.cs" />
     <Compile Include="Game\GameObjects\Objects\Camera.cs" />
     <Compile Include="Game\GameObjects\Objects\Character.cs" />
+    <Compile Include="Game\GameObjects\Objects\Door.cs" />
     <Compile Include="Game\GameObjects\Objects\DrawableObject.cs" />
     <Compile Include="Game\GameObjects\Objects\LiftPlatform.cs" />
-    <Compile Include="Game\GameObjects\Objects\Platform.cs" />
+    <Compile Include="Game\GameObjects\Objects\RotatiableObject.cs" />
     <Compile Include="Game\GameObjects\Services\CameraService.cs" />
     <Compile Include="Game\GameObjects\Services\CharacterService.cs" />
     <Compile Include="Game\GameObjects\Services\IService.cs" />

@@ -9,12 +9,12 @@ namespace Template.Game.Animations
 {
     public class AnimationEventArgs
     {
-        public DrawableObject AnimationObject { get; set; }
+        public List<PositionalObject> AnimationObjects { get; set; }
         public string AnimationType { get; set; }
 
-        public AnimationEventArgs(DrawableObject animationObject, string animationType)
+        public AnimationEventArgs(List<PositionalObject> animationObjects, string animationType)
         {
-            AnimationObject = animationObject;
+            AnimationObjects = animationObjects;
             AnimationType = animationType;
         }
     }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Template.Game.GameObjects.Objects
 {
-    class LiftPlatform : Platform
+    class LiftPlatform : RotatiableObject
     {
         //private static readonly float LIFT_SPEED;
 
@@ -15,7 +15,7 @@ namespace Template.Game.GameObjects.Objects
         public Vector2 MinMax { get; set; }
         public int Up { get; set; }
 
-        public LiftPlatform(Vector4 initialPosition, Vector2 minMax) : base(initialPosition)
+        public LiftPlatform(Vector4 initialPosition, float radius, Vector2 minMax) : base(initialPosition, radius)
         {
             MinMax = minMax;
         }
