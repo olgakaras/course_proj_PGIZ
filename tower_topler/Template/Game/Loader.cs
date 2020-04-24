@@ -41,6 +41,7 @@ namespace Template
             _renderer = renderer;
             _imagingFactory = imagingFactory;
             samplerState = new SamplerStates(_directX3DGraphics);
+            StubTexture = LoadTextureFromFile("resources\\stub.png", false, samplerState.Colored);
         }
 
         private float ParseFloat(string str)
@@ -313,12 +314,17 @@ namespace Template
         {
             bool isTextured = string.IsNullOrEmpty(material.AmbientTextureMap) ? false : true;
             Texture texture = null;
-            string[] path = material.AmbientTextureMap.Split('\\');
-            string textureName = path[path.Length - 1];
-            if (!string.IsNullOrEmpty(textureName))
+            if (!string.IsNullOrEmpty(material.AmbientTextureMap))
             {
+                string[] path = material.AmbientTextureMap.Split('\\');
+                string textureName = path[path.Length - 1];
                 if (textures.ContainsKey(textureName)) texture = textures[textureName];
                 else texture = LoadTextureFromFile(material.AmbientTextureMap, false, samplerState.Textured);
+            }
+            else
+            {
+                texture = StubTexture;
+                Console.WriteLine("SSSSSS");
             }
             //string.IsNullOrEmpty(material.AmbientTextureMap) 
              //   ? StubTexture : LoadTextureFromFile(material.AmbientTextureMap, false, samplerState.Textured);

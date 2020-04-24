@@ -27,7 +27,7 @@ namespace Template
             public Vector2 texCoord0;
             public Vector2 texCoord1;
         }
-        public OrientedBoundingBox Collider { get; set; }
+        public BoundingBox Collider { get; set; }
         public bool IsVisible { get; set; }
         public bool IsMoveable { get; set; }
         public string Name { get; set; }
@@ -101,7 +101,7 @@ namespace Template
             _vertexBufferObject = Buffer11.Create(_directX3DGraphics.Device, BindFlags.VertexBuffer, _vertices, Utilities.SizeOf<VertexDataStruct>() * _verticesCount);
             _vertexBufferBinding = new VertexBufferBinding(_vertexBufferObject, Utilities.SizeOf<VertexDataStruct>(), 0);
             _indexBufferObject = Buffer11.Create(_directX3DGraphics.Device, BindFlags.IndexBuffer, _indexes, Utilities.SizeOf<int>() * _indexesCount);
-            Collider = new OrientedBoundingBox(GetMin(), GetMax());
+            Collider = new BoundingBox(GetMin(), GetMax());
             
         }
 
@@ -123,11 +123,11 @@ namespace Template
             Utilities.Dispose(ref _vertexBufferObject);
         }
 
-        public OrientedBoundingBox GetNewCollider(Vector4 position)
+        public BoundingBox GetNewCollider(Vector4 position)
         {
             Vector3 min = Vector3.Add((Vector3)position, GetRawMin());
             Vector3 max = Vector3.Add((Vector3)position, GetRawMax());
-            return new OrientedBoundingBox(min, max);
+            return new BoundingBox(min, max);
         }
 
         public Vector3 GetMin()

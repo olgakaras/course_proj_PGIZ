@@ -161,8 +161,12 @@
     <Compile Include="Game\GameObjects\Objects\Camera.cs" />
     <Compile Include="Game\GameObjects\Objects\Character.cs" />
     <Compile Include="Game\GameObjects\Objects\DrawableObject.cs" />
+    <Compile Include="Game\GameObjects\Objects\LiftPlatform.cs" />
+    <Compile Include="Game\GameObjects\Objects\Platform.cs" />
     <Compile Include="Game\GameObjects\Services\CameraService.cs" />
-    <Compile Include="Game\GameObjects\Services\TestGameService.cs" />
+    <Compile Include="Game\GameObjects\Services\CharacterService.cs" />
+    <Compile Include="Game\GameObjects\Services\IService.cs" />
+    <Compile Include="Game\GameObjects\Services\MapService.cs" />
     <Compile Include="Graphics\DirectX2DGraphics.cs" />
     <Compile Include="Graphics\DirectX3DGraphics.cs" />
     <Compile Include="Game\GameProcess.cs" />

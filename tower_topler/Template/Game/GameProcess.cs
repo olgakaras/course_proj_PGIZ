@@ -44,7 +44,8 @@ namespace Template
         private TimeHelper timeHelper;
         private bool isFirstRun = true;
 
-        private TestGameService gameService;
+        private CharacterService gameService;
+        private MapService mapService;
 
         public GameProcess()
         {
@@ -59,7 +60,8 @@ namespace Template
 
             inputController = new InputController(renderForm);
 
-            gameService = new TestGameService(loader, inputController);
+            mapService = new MapService(loader, inputController);
+            gameService = new CharacterService(loader, inputController, mapService.Walls);
             cameraService = new CameraService(new Camera(new Vector4(-116.0f, 84.0f, 0.0f, 1.0f)), inputController);
         }
 
@@ -120,6 +122,7 @@ namespace Template
 
             UpdateKeyBoard();
 
+            mapService.Update();
             gameService.Update();
 
             viewMatrix = cameraService.GetViewMatrix();
@@ -135,6 +138,7 @@ namespace Template
             float time = timeHelper.Time;
             renderer.SetPerObjectConstants(time, 0);
 
+            mapService.Render(viewMatrix, projectionMatrix);
             gameService.Render(viewMatrix, projectionMatrix);
             RenderHUD();
 
@@ -148,7 +152,7 @@ namespace Template
                 new LightSource(LightSource.LightType.DirectionalLight,
                     new Vector4(-40.0f, 10.0f, 0.0f, 1.0f),   // Position
                     new Vector4(10.0f, -20.0f, 0.0f, 1.0f),   // Direction
-                    new Vector4(1.0f, 1.0f, 1.0f, 1.0f),    // Color
+                    new Vector4(0.7f, 0.7f, 0.7f, 1.0f),    // Color
                     0.0f,                                   // Spot angle
                     1.0f,                                   // Const atten
                     1.0f,                                   // Linear atten

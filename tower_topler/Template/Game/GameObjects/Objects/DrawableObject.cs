@@ -58,6 +58,12 @@ namespace Template.Game.gameObjects.newObjects
             ColliderMesh.Collider = ColliderMesh.GetNewCollider(Position);
         }
 
+        public void SetCollider(string name)
+        {
+            ColliderMesh = MeshObjects.Find(m => m.Name.Equals(name));
+            ColliderMesh.Collider = ColliderMesh.GetNewCollider(Position);
+        }
+
         public void AddMeshObject(MeshObject meshObject)
         {
             meshObject.Position = position;

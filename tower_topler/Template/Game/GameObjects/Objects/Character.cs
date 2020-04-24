@@ -11,8 +11,8 @@ namespace Template.Game.gameObjects.interfaces
 {
     public class Character : DrawableObject 
     {
-        protected static readonly float HORIZONTAL_SPEED = 0.5f;
-        public static readonly float VERCTICAL_SPEED = 1.5f;
+        protected static readonly float HORIZONTAL_SPEED = 0.01f;
+        public static readonly float VERCTICAL_SPEED = 1.6f;
         public static readonly float GRAVITY = 0.1f;
         protected static readonly int HEALTH = 6;
 
@@ -58,14 +58,14 @@ namespace Template.Game.gameObjects.interfaces
             return GetNewVerticalPosition(Speed.Y);
         }
 
-        public Vector4 GetNewHorizontalPosition(float speed)
+        public virtual Vector4 GetNewHorizontalPosition(float speed)
         {
             Vector4 newPosition = position;
             newPosition.Z += Horizontal * speed;
             return newPosition;
         } 
 
-        public Vector4 GetNewVerticalPosition(float speed)
+        public virtual Vector4 GetNewVerticalPosition(float speed)
         {
             Vector4 newPosition = position;
             newPosition.Y += speed;
